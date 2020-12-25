@@ -1916,6 +1916,12 @@ png_rewrite_acTL(png_structp png_ptr,
 {
     png_byte buf[8];
 
+    if(!png_ptr->fn_cb_getpos){
+      png_error(png_ptr, "Not set fn_cb_getpos");
+    }
+    if(!png_ptr->fn_cb_setpos){
+      png_error(png_ptr, "Not set fn_cb_setpos");
+    }
     png_debug(1, "in png_rewrite_acTL");
 
     png_ptr->num_frames_to_write = num_frames;
@@ -1925,11 +1931,11 @@ png_rewrite_acTL(png_structp png_ptr,
 
     png_save_uint_32(buf, num_frames);
     png_save_uint_32(buf + 4, num_plays);
-    fpos_t tmpPos;
-    fgetpos((FILE *)png_ptr->io_ptr, &tmpPos);
-    fsetpos((FILE *)png_ptr->io_ptr, &png_ptr->acTL_pos);
+    size_t tmpPos;
+    tmpPos = png_ptr->fn_cb_getpos(png_ptr);
+    png_ptr->fn_cb_setpos(png_ptr, png_ptr->acTL_pos);
     png_write_complete_chunk(png_ptr, png_acTL, buf, (png_size_t)8);
-    fsetpos((FILE *)png_ptr->io_ptr, &tmpPos);
+    png_ptr->fn_cb_setpos(png_ptr, tmpPos);
 }
 
 
@@ -1948,8 +1954,9 @@ png_write_acTL(png_structp png_ptr,
 
     png_save_uint_32(buf, num_frames);
     png_save_uint_32(buf + 4, num_plays);
-    
-    fgetpos((FILE *)png_ptr->io_ptr, &png_ptr->acTL_pos);
+    if(png_ptr->fn_cb_getpos){
+       png_ptr->acTL_pos = png_ptr->fn_cb_getpos(png_ptr);
+    }
     png_write_complete_chunk(png_ptr, png_acTL, buf, (png_size_t)8);
 }
 

@@ -805,6 +805,9 @@ typedef PNG_CALLBACK(void, *png_progressive_end_ptr, (png_structp, png_infop));
 #ifdef PNG_APNG_SUPPORTED
 typedef PNG_CALLBACK(void, *png_progressive_frame_ptr, (png_structp,
     png_uint_32));
+    
+typedef PNG_CALLBACK(size_t, *png_getpos_ptr, (png_structp));
+typedef PNG_CALLBACK(void, *png_setpos_ptr, (png_structp, size_t));
 #endif
 
 /* The following callback receives png_uint_32 row_number, int pass for the
@@ -3318,6 +3321,9 @@ PNG_EXPORT(269, void, png_write_frame_tail, (png_structp png_ptr,
 
 PNG_EXPORT(270, void, png_rewrite_acTL,(png_structp png_ptr,
    png_uint_32 num_frames, png_uint_32 num_plays));
+
+PNG_EXPORT(271, void, png_set_pos_fn, (png_structrp png_ptr,
+    png_getpos_ptr getpos_fn, png_setpos_ptr setpos_fn));
 
 #endif /* PNG_WRITE_APNG_SUPPORTED */
 #endif /* PNG_APNG_SUPPORTED */
