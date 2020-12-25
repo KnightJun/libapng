@@ -1910,6 +1910,29 @@ png_write_tIME(png_structrp png_ptr, png_const_timep mod_time)
 #endif
 
 #ifdef PNG_WRITE_APNG_SUPPORTED
+void /* PUBLIC */
+png_rewrite_acTL(png_structp png_ptr,
+    png_uint_32 num_frames, png_uint_32 num_plays)
+{
+    png_byte buf[8];
+
+    png_debug(1, "in png_rewrite_acTL");
+
+    png_ptr->num_frames_to_write = num_frames;
+
+    if (png_ptr->apng_flags & PNG_FIRST_FRAME_HIDDEN)
+        num_frames--;
+
+    png_save_uint_32(buf, num_frames);
+    png_save_uint_32(buf + 4, num_plays);
+    fpos_t tmpPos;
+    fgetpos((FILE *)png_ptr->io_ptr, &tmpPos);
+    fsetpos((FILE *)png_ptr->io_ptr, &png_ptr->acTL_pos);
+    png_write_complete_chunk(png_ptr, png_acTL, buf, (png_size_t)8);
+    fsetpos((FILE *)png_ptr->io_ptr, &tmpPos);
+}
+
+
 void /* PRIVATE */
 png_write_acTL(png_structp png_ptr,
     png_uint_32 num_frames, png_uint_32 num_plays)
@@ -1925,7 +1948,8 @@ png_write_acTL(png_structp png_ptr,
 
     png_save_uint_32(buf, num_frames);
     png_save_uint_32(buf + 4, num_plays);
-
+    
+    fgetpos((FILE *)png_ptr->io_ptr, &png_ptr->acTL_pos);
     png_write_complete_chunk(png_ptr, png_acTL, buf, (png_size_t)8);
 }
 

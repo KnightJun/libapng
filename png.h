@@ -3315,6 +3315,10 @@ PNG_EXPORT(268, void, png_write_frame_head, (png_structp png_ptr,
 
 PNG_EXPORT(269, void, png_write_frame_tail, (png_structp png_ptr,
    png_infop info_ptr));
+
+PNG_EXPORT(270, void, png_rewrite_acTL,(png_structp png_ptr,
+   png_uint_32 num_frames, png_uint_32 num_plays));
+
 #endif /* PNG_WRITE_APNG_SUPPORTED */
 #endif /* PNG_APNG_SUPPORTED */
 

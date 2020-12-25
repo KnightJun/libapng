@@ -425,6 +425,7 @@ struct png_struct_def
 #endif
 
 #ifdef PNG_WRITE_APNG_SUPPORTED
+   fpos_t acTL_pos;
    png_uint_32 num_frames_to_write;
    png_uint_32 num_frames_written;
 #endif

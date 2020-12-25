@@ -1541,6 +1541,9 @@ test_one_file(const char *inname, const char *outname)
                else /* not interlaced */
                   pass_height = frame_height;
 #           else
+#         ifdef pass_height
+#             undef pass_height
+#         endif
 #              define pass_height frame_height
 #           endif
 
@@ -1604,6 +1607,9 @@ test_one_file(const char *inname, const char *outname)
          else /* not interlaced */
             pass_height = height;
 #     else
+#         ifdef pass_height
+#             undef pass_height
+#         endif
 #        define pass_height height
 #     endif
 
