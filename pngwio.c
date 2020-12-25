@@ -170,7 +170,7 @@ png_set_write_fn(png_structrp png_ptr, png_voidp io_ptr,
 
 #ifdef PNG_WRITE_APNG_SUPPORTED
 void PNGAPI
-png_set_write_fn(png_structrp png_ptr, png_getpos_ptr getpos_fn, png_setpos_ptr setpos_fn)
+png_set_pos_fn(png_structrp png_ptr, png_getpos_ptr getpos_fn, png_setpos_ptr setpos_fn)
 {
    if (png_ptr == NULL)
       return;
