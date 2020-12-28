@@ -273,3 +273,5 @@ EXPORTS
  png_set_progressive_frame_fn @267
  png_write_frame_head @268
  png_write_frame_tail @269
+ png_rewrite_acTL @270
+ png_set_pos_fn @271

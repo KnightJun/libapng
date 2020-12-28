@@ -3337,7 +3337,7 @@ PNG_EXPORT(271, void, png_set_pos_fn, (png_structrp png_ptr,
  */
 #ifdef PNG_EXPORT_LAST_ORDINAL
 #ifdef PNG_APNG_SUPPORTED
-  PNG_EXPORT_LAST_ORDINAL(269);
+  PNG_EXPORT_LAST_ORDINAL(271);
 #else
   PNG_EXPORT_LAST_ORDINAL(249);
 #endif /* PNG_APNG_SUPPORTED */
