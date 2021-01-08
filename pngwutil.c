@@ -2004,18 +2004,18 @@ void
 png_rewrite_delay(png_structp png_ptr, png_uint_16 delay_num, png_uint_16 delay_den)
 {
    png_byte buf[4];
-   size_t tmppos = png_ptr->fn_cb_getpos(png_ptr);
+   fpos_t tmppos = png_ptr->fn_cb_getpos(png_ptr);
    if(!png_ptr->fn_cb_getpos || !png_ptr->fn_cb_setpos){
       png_error(png_ptr, "png_rewrite_delay must set fn_cb_getpos and fn_cb_setpos!");
    }
    if(!png_ptr->last_delay_info_pos){
       png_error(png_ptr, "Not set delay yet!");
    }
-   png_ptr->fn_cb_setpos(png_ptr->last_delay_info_pos);
+   png_ptr->fn_cb_setpos(png_ptr, png_ptr->last_delay_info_pos);
    png_save_uint_16(buf, delay_num);
    png_save_uint_16(buf + 2, delay_den);
    png_write_data(png_ptr, buf, 4);
-   png_ptr->fn_cb_setpos(tmppos);
+   png_ptr->fn_cb_setpos(png_ptr, tmppos);
 }
 
 void /* PRIVATE */
