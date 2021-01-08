@@ -1933,7 +1933,7 @@ png_rewrite_acTL(png_structp png_ptr,
     png_save_uint_32(buf + 4, num_plays);
     size_t tmpPos;
     tmpPos = png_ptr->fn_cb_getpos(png_ptr);
-    png_ptr->fn_cb_setpos(png_ptr, png_ptr->acTL_pos);
+    png_ptr->fn_cb_setpos(png_ptr, png_ptr->last_delay_info_pos);
     png_write_complete_chunk(png_ptr, png_acTL, buf, (png_size_t)8);
     png_ptr->fn_cb_setpos(png_ptr, tmpPos);
 }
