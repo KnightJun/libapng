@@ -2000,14 +2000,13 @@ png_write_fcTL(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
 void
 png_rewrite_delay(png_structp png_ptr, png_uint_16 delay_num, png_uint_16 delay_den)
 {
-   png_byte buf[4];
-   fpos_t tmppos = png_ptr->fn_cb_getpos(png_ptr);
    if(!png_ptr->fn_cb_getpos || !png_ptr->fn_cb_setpos){
       png_error(png_ptr, "png_rewrite_delay must set fn_cb_getpos and fn_cb_setpos!");
    }
    if(!png_ptr->fcTL_pos){
       png_error(png_ptr, "Not set delay yet!");
    }
+   fpos_t tmppos = png_ptr->fn_cb_getpos(png_ptr);
    png_ptr->fn_cb_setpos(png_ptr, png_ptr->fcTL_pos);
    png_save_uint_16(png_ptr->fcTL_buf + 20, delay_num);
    png_save_uint_16(png_ptr->fcTL_buf + 22, delay_den);
