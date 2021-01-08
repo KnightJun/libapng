@@ -275,3 +275,4 @@ EXPORTS
  png_write_frame_tail @269
  png_rewrite_acTL @270
  png_set_pos_fn @271
+ png_rewrite_delay @272
