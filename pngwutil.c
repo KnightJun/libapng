@@ -1992,8 +1992,8 @@ png_write_fcTL(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
     buf[24] = dispose_op;
     buf[25] = blend_op;
     if(png_ptr->fn_cb_getpos){
-       png_ptr->flast_delay_info_pos =  8/*chunk_header*/ 
-               + 20 + png_ptr->ffn_cb_getpos(png_ptr);
+       png_ptr->last_delay_info_pos =  8/*chunk_header*/ 
+               + 20 + png_ptr->fn_cb_getpos(png_ptr);
     }
     png_write_complete_chunk(png_ptr, png_fcTL, buf, (png_size_t)26);
 
