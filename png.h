@@ -3325,6 +3325,9 @@ PNG_EXPORT(270, void, png_rewrite_acTL,(png_structp png_ptr,
 PNG_EXPORT(271, void, png_set_pos_fn, (png_structrp png_ptr,
     png_getpos_ptr getpos_fn, png_setpos_ptr setpos_fn));
 
+PNG_EXPORT(272, void, png_rewrite_delay, (png_structrp png_ptr,
+    png_uint_16 delay_num, png_uint_16 delay_den));
+
 #endif /* PNG_WRITE_APNG_SUPPORTED */
 #endif /* PNG_APNG_SUPPORTED */
 
@@ -3337,7 +3340,7 @@ PNG_EXPORT(271, void, png_set_pos_fn, (png_structrp png_ptr,
  */
 #ifdef PNG_EXPORT_LAST_ORDINAL
 #ifdef PNG_APNG_SUPPORTED
-  PNG_EXPORT_LAST_ORDINAL(271);
+  PNG_EXPORT_LAST_ORDINAL(272);
 #else
   PNG_EXPORT_LAST_ORDINAL(249);
 #endif /* PNG_APNG_SUPPORTED */
