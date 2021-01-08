@@ -1933,7 +1933,7 @@ png_rewrite_acTL(png_structp png_ptr,
     png_save_uint_32(buf + 4, num_plays);
     size_t tmpPos;
     tmpPos = png_ptr->fn_cb_getpos(png_ptr);
-    png_ptr->fn_cb_setpos(png_ptr, png_ptr->last_delay_info_pos);
+    png_ptr->fn_cb_setpos(png_ptr, png_ptr->acTL_pos);
     png_write_complete_chunk(png_ptr, png_acTL, buf, (png_size_t)8);
     png_ptr->fn_cb_setpos(png_ptr, tmpPos);
 }
@@ -1966,8 +1966,6 @@ png_write_fcTL(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
     png_uint_16 delay_num, png_uint_16 delay_den, png_byte dispose_op,
     png_byte blend_op)
 {
-    png_byte buf[26];
-
     png_debug(1, "in png_write_fcTL");
 
     if (png_ptr->num_frames_written == 0 && (x_offset != 0 || y_offset != 0))
@@ -1982,20 +1980,19 @@ png_write_fcTL(png_structp png_ptr, png_uint_32 width, png_uint_32 height,
     png_ensure_fcTL_is_valid(png_ptr, width, height, x_offset, y_offset,
                              delay_num, delay_den, dispose_op, blend_op);
 
-    png_save_uint_32(buf, png_ptr->next_seq_num);
-    png_save_uint_32(buf + 4, width);
-    png_save_uint_32(buf + 8, height);
-    png_save_uint_32(buf + 12, x_offset);
-    png_save_uint_32(buf + 16, y_offset);
-    png_save_uint_16(buf + 20, delay_num);
-    png_save_uint_16(buf + 22, delay_den);
-    buf[24] = dispose_op;
-    buf[25] = blend_op;
+    png_save_uint_32(png_ptr->fcTL_buf, png_ptr->next_seq_num);
+    png_save_uint_32(png_ptr->fcTL_buf + 4, width);
+    png_save_uint_32(png_ptr->fcTL_buf + 8, height);
+    png_save_uint_32(png_ptr->fcTL_buf + 12, x_offset);
+    png_save_uint_32(png_ptr->fcTL_buf + 16, y_offset);
+    png_save_uint_16(png_ptr->fcTL_buf + 20, delay_num);
+    png_save_uint_16(png_ptr->fcTL_buf + 22, delay_den);
+    png_ptr->fcTL_buf[24] = dispose_op;
+    png_ptr->fcTL_buf[25] = blend_op;
     if(png_ptr->fn_cb_getpos){
-       png_ptr->last_delay_info_pos =  8/*chunk_header*/ 
-               + 20 + png_ptr->fn_cb_getpos(png_ptr);
+       png_ptr->fcTL_pos = png_ptr->fn_cb_getpos(png_ptr);
     }
-    png_write_complete_chunk(png_ptr, png_fcTL, buf, (png_size_t)26);
+    png_write_complete_chunk(png_ptr, png_fcTL, png_ptr->fcTL_buf, (png_size_t)26);
 
     png_ptr->next_seq_num++;
 }
@@ -2008,13 +2005,13 @@ png_rewrite_delay(png_structp png_ptr, png_uint_16 delay_num, png_uint_16 delay_
    if(!png_ptr->fn_cb_getpos || !png_ptr->fn_cb_setpos){
       png_error(png_ptr, "png_rewrite_delay must set fn_cb_getpos and fn_cb_setpos!");
    }
-   if(!png_ptr->last_delay_info_pos){
+   if(!png_ptr->fcTL_pos){
       png_error(png_ptr, "Not set delay yet!");
    }
-   png_ptr->fn_cb_setpos(png_ptr, png_ptr->last_delay_info_pos);
-   png_save_uint_16(buf, delay_num);
-   png_save_uint_16(buf + 2, delay_den);
-   png_write_data(png_ptr, buf, 4);
+   png_ptr->fn_cb_setpos(png_ptr, png_ptr->fcTL_pos);
+   png_save_uint_16(png_ptr->fcTL_buf + 20, delay_num);
+   png_save_uint_16(png_ptr->fcTL_buf + 22, delay_den);
+   png_write_complete_chunk(png_ptr, png_fcTL, png_ptr->fcTL_buf, (png_size_t)26);
    png_ptr->fn_cb_setpos(png_ptr, tmppos);
 }
 

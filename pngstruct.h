@@ -428,7 +428,8 @@ struct png_struct_def
    png_getpos_ptr fn_cb_getpos;
    png_setpos_ptr fn_cb_setpos;
    fpos_t acTL_pos;
-   fpos_t last_delay_info_pos;
+   fpos_t fcTL_pos;
+   png_byte fcTL_buf[26];
    png_uint_32 num_frames_to_write;
    png_uint_32 num_frames_written;
 #endif
