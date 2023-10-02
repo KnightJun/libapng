@@ -13,6 +13,9 @@ package("libapng")
 
     add_deps("zlib")
 
+    add_patches("v1.6.40", "$(scriptdir)/libpng-1.6.40-apng.patch",
+                            "83042603a96a30a13f8a4dd4aa1fa92d1f2b71af2f63e76a346bfdacc88846e1")
+
     if is_plat("linux") then
         add_syslinks("m")
     end
