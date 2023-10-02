@@ -9,17 +9,16 @@ package("libapng")
     })
     add_urls("https://github.com/glennrp/libpng.git")
 
-    add_versions("v1.6.40", "62d25af25e636454b005c93cae51ddcd5383c40fa14aa3dae8f6576feb5692c2")
+    add_versions("v1.6.37", "ca74a0dace179a8422187671aee97dd3892b53e168627145271cad5b5ac81307")
 
     add_deps("zlib")
 
-    add_patches("v1.6.40", "$(scriptdir)/libpng-1.6.40-apng.patch",
-                            "83042603a96a30a13f8a4dd4aa1fa92d1f2b71af2f63e76a346bfdacc88846e1")
+    add_patches("v1.6.37", path.join(os.scriptdir(), "libapng1637.patch"),
+                        "79a52299ce28e396e9ec490b02d41e7f94e4569c75de4bc332997760927c1986")
 
     if is_plat("linux") then
         add_syslinks("m")
     end
-
 
     on_install("windows", "mingw", "android", "iphoneos", "cross", "bsd", "wasm", function (package)
         io.writefile("xmake.lua", [[
